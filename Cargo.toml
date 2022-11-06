@@ -1,0 +1,35 @@
+[package]
+name = "kodiak-taxonomy"
+version = "0.1.0"
+authors = ["Tobias Mucke <tobias.mucke@gmail.com", ]
+description = "A library to manage generic taxonomies supporting unique features."
+categories = ["data-structures"]
+keywords = ["taxonomy", "generic", "node"]
+homepage = "https://github.com/polarlabs"
+documentation = "https://docs.rs/kodiak-taxonomy"
+repository = "https://github.com/polarlabs/kodiak-taxonomy"
+readme = "README.md"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+# Disable autodiscovery for tests, use test target (see below)
+autotests = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+thiserror = "1.0.37"
+
+# Required for integration tests
+[dev-dependencies]
+uuid = { version = "1.2.1", features = ["v4"]}
+
+# Dedicated target for tests to avoid having one crate per test file, allows code sharing across multiple test files
+# How to run tests:
+# - all tests: `cargo test`
+# - unit tests only: `cargo test --lib`
+# - integration tests only: `cargo test --test integration`
+# - doc tests only: `cargo test --doc`
+[[test]]
+name = "integration"
+path = "tests/lib.rs"
