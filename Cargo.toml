@@ -10,7 +10,7 @@ documentation = "https://docs.rs/kodiak-taxonomy"
 repository = "https://github.com/polarlabs/kodiak-taxonomy"
 readme = "README.md"
 edition = "2021"
-license = "MIT OR Apache-2.0"
+license = "MIT / Apache-2.0"
 
 # Disable autodiscovery for tests, use test target (see below)
 autotests = false

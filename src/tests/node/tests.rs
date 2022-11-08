@@ -136,10 +136,7 @@ mod tests {
         let sw_id = Rc::new(sw.id());
 
         node.append_sub_at(sw_id.clone(), pos);
-        assert_eq!(
-            *node.subs().iter().nth(node.subs().len() - 1).unwrap(),
-            sw_id
-        );
+        assert_eq!(*node.subs().iter().nth(node.subs().len() - 1).unwrap(), sw_id);
 
         // Check order of sub-nodes
         let mut k: usize = 0;
@@ -195,6 +192,26 @@ mod tests {
 
             k += 1;
         }
+    }
+
+    #[test]
+    fn remove_super() {
+        let (mut root_node, mut sub_nodes) = setup_root_node_with_four_subs_in_vec();
+        let seq = vec![2, 3, 0, 1]; // Removes from middle pos, back pos, front pos and last pos
+        let mut k: usize = 0;
+
+        while k <= 3 {
+            let sub_node = sub_nodes.iter_mut().nth(seq[k]).unwrap();
+            let root_node_id = root_node.id();
+            sub_node.remove_super(Some(root_node_id));
+
+            assert_eq!(sub_node.count_super(), 0);
+
+            k += 1;
+        }
+
+        root_node.remove_super(None);
+        assert_eq!(root_node.has_super(), false);
     }
 
     #[test]

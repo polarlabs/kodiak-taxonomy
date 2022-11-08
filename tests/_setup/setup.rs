@@ -261,11 +261,7 @@ pub fn four_root_with_super_and_sub(tax: &mut Taxonomy<Uuid, Concept>) -> Linked
 ///     │   └── ...
 ///     └── Katzen (duplicate)
 ///
-pub(crate) fn setup_tax_animals() -> (
-    Taxonomy<Uuid, Concept>,
-    HashMap<&'static str, Uuid>,
-    LinkedList<Concept>,
-) {
+pub(crate) fn setup_tax_animals() -> (Taxonomy<Uuid, Concept>, HashMap<&'static str, Uuid>, LinkedList<Concept>) {
     let mut tax = setup_tax_empty();
     let mut ids = HashMap::new();
     let mut list = LinkedList::new();

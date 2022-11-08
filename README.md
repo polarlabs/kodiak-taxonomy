@@ -9,6 +9,12 @@ don't hesitate to file an issue on Github.
 
 We are looking forward to your feedback.
 
+# Impressions
+
+todo: show two examples of taxonomies supported by kodiak-taxonomy
+
+Provide additional examples in EXAMPLES.md and link to it.
+
 # TL;DR
 
 Kodiak's specific requirements regarding its taxonomy:
@@ -25,8 +31,14 @@ Kodiak's specific requirements regarding its taxonomy:
 
 # Roadmap and future considerations
 
-## Version 0.2.0 (planned)
-- Review and follow Rust API Guidelines
+## Version 0.3.0 (planned)
+- Implement Iterator trait.
+- Implement Serde's Serialize and Deserialize.
+
+## Version 0.2.0 (in progress)
+- Review and follow Rust API Guidelines.
+- Improve documentation: e.g. comply to C-LINK from Rust API Guidelines.
+- Full code coverage with tests, measured by tarpaulin and added as a badge to Github project 
 - Add support for arbitrary metadata / attributes at the Node and Edge level.
 
 ## Version 0.1.0 (delivered)
@@ -37,3 +49,7 @@ Kodiak's specific requirements regarding its taxonomy:
 - Homepage polarlabs: [polarlabs.io](https://www.polarlabs.io)
 - Crate: [crates.io/kodiak-taxonomy](https://crates.io/crates/kodiak-taxonomy)
 - Lib documentation: [docs.rs/kodiak-taxonomy](https://docs.rs/kodiak-taxonomy/)
+
+# Contributing
+
+See CONTRIBUTING.md for more details.

@@ -82,7 +82,7 @@ where
     // Test coverage: { unit = done, integration = n/a, doc = n/a } -> ok
     pub(crate) fn append_sub(&mut self, node_id: Rc<K>) -> &mut Self {
         self.subs.push_back(node_id);
-        self
+        self // return &mut Node
     }
 
     /// Appends the sub-node's id to node's sub-nodes at a specified index.
@@ -108,7 +108,7 @@ where
     // Test coverage: { unit = done, integration = n/a, doc = n/a } -> ok
     pub(crate) fn prepend_sub(&mut self, id: Rc<K>) -> &mut Self {
         self.subs.push_front(id);
-        self
+        self // return &mut Node
     }
 
     /// Returns number of subordinate nodes.
@@ -126,13 +126,10 @@ where
     /// Removes a sub node identified by id, silently ignores if there is no sub with this id
     // Test coverage: { unit = done, integration = n/a, doc = n/a } -> ok
     pub(crate) fn remove_sub(&mut self, node_id: Rc<K>) {
-        match self.subs.iter_mut().position(|cursor| *cursor == node_id) {
-            None => {}
-            Some(index) => {
-                let mut remain = self.subs.split_off(index);
-                remain.pop_front();
-                self.subs.append(&mut remain);
-            }
+        if let Some(index) = self.subs.iter_mut().position(|cursor| *cursor == node_id) {
+            let mut remain = self.subs.split_off(index);
+            remain.pop_front();
+            self.subs.append(&mut remain);
         }
     }
 
@@ -148,11 +145,7 @@ where
     /// Returns a list of valid super nodes (excluding None)
     // Test coverage: { unit = missing, integration = n/a, doc = n/a } -> not ok
     pub(crate) fn supers(&self) -> LinkedList<Rc<K>> {
-        self.supers
-            .iter()
-            .filter(|cursor| cursor.id() != None)
-            .map(|cursor| cursor.id().unwrap())
-            .collect()
+        self.supers.iter().filter_map(|cursor| cursor.id()).collect()
     }
 
     /// Adds additional id to node's super-nodes.
@@ -187,18 +180,13 @@ where
         !self.supers.is_empty()
     }
 
-    /// Removes an id from node's superordinate nodes.
+    /// Removes a super-node identified by id, silently ignores if there is no super with this id.
     // Test coverage: { unit = done, integration = n/a, doc = n/a } -> ok
     pub(crate) fn remove_super(&mut self, id: Option<Rc<K>>) {
-        match self.supers.iter().position(|cursor| cursor.id() == id) {
-            None => {
-                self.supers.pop_front();
-            }
-            Some(index) => {
-                let mut remain = self.supers.split_off(index);
-                remain.pop_front();
-                self.supers.append(&mut remain);
-            }
+        if let Some(index) = self.supers.iter().position(|cursor| cursor.id() == id) {
+            let mut remain = self.supers.split_off(index);
+            remain.pop_front();
+            self.supers.append(&mut remain);
         }
     }
 
@@ -207,7 +195,7 @@ where
     pub(crate) fn is_root(&self) -> bool {
         match self.supers.front() {
             None => true,
-            Some(super_node) => super_node.id() == None,
+            Some(super_node) => super_node.id().is_none(),
         }
     }
 }

@@ -5,6 +5,10 @@ use uuid::Uuid;
 
 use std::collections::{HashMap, LinkedList};
 
+pub fn setup_taxonomy_default() -> Taxonomy<Uuid, Concept> {
+    Taxonomy::default()
+}
+
 pub fn setup_tax_empty() -> Taxonomy<Uuid, Concept> {
     let tax: Taxonomy<Uuid, Concept> = Taxonomy::new();
     tax

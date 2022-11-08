@@ -229,7 +229,7 @@ where
 
         match super_id {
             // Element becomes a root-node
-            None => {
+            None => { // tarpaulin: exclude false positive from code coverage
                 let node = Node::new(element);
                 self._add_root_node(node);
             }
@@ -260,11 +260,7 @@ where
     /// # Examples
     /// todo
     // Test coverage: { unit = done, integration = missing, doc = done } -> not ok
-    pub fn append(
-        &mut self,
-        super_id: Option<K>,
-        node_id: K,
-    ) -> Result<&mut Self, TaxonomyError<K>> {
+    pub fn append(&mut self, super_id: Option<K>, node_id: K) -> Result<&mut Self, TaxonomyError<K>> {
         let node_id = Rc::new(node_id);
 
         // Input validation: element
@@ -272,10 +268,10 @@ where
 
         match super_id {
             // Node is appended to root nodes
-            None => {
+            None => { // tarpaulin: exclude false positive from code coverage
                 let pos = self.node0.len();
                 match self.node0.contains(&node_id) {
-                    true => return Err(DuplicateNode(node_id)),
+                    true => return Err(DuplicateRootNode(node_id)),
                     false => self._append_root_at(node_id, pos),
                 };
             }
@@ -310,12 +306,7 @@ where
     /// todo
     /// ```text
     // Test coverage: { unit = done, integration = missing, doc = missing } -> not ok
-    pub fn append_at(
-        &mut self,
-        super_id: Option<K>,
-        node_id: K,
-        index: usize,
-    ) -> Result<&mut Self, TaxonomyError<K>> {
+    pub fn append_at(&mut self, super_id: Option<K>, node_id: K, index: usize) -> Result<&mut Self, TaxonomyError<K>> {
         let node_id = Rc::new(node_id);
 
         // Input validation: node_id
@@ -323,9 +314,9 @@ where
 
         match super_id {
             // Node is appended to root nodes
-            None => {
+            None => { // tarpaulin: exclude false positive from code coverage
                 match self.node0.contains(&node_id) {
-                    true => return Err(DuplicateNode(node_id)),
+                    true => return Err(DuplicateRootNode(node_id)),
                     false => self._append_root_at(node_id, index),
                 };
             }
@@ -395,7 +386,7 @@ where
 
         match to_super_id {
             // Node is appended to root nodes
-            None => {
+            None => { // tarpaulin: exclude false positive from code coverage
                 self._append_root_at(node_id, index);
             }
             // Node is appended to existing super-node
@@ -482,23 +473,16 @@ where
                 node.remove_super(None);
 
                 // Determine index of node (which is an ex-root-node) in node0 and remove it
-                match self
-                    .node0
-                    .iter()
-                    .position(|root_node_id| root_node_id.clone() == node_id)
-                {
-                    None => {}
-                    Some(index) => {
-                        // Optimize for first and last element in self.node0
-                        if index == 0 {
-                            self.node0.pop_front();
-                        } else if index == self.node0.len() - 1 {
-                            self.node0.pop_back();
-                        } else {
-                            let mut remain = self.node0.split_off(index);
-                            remain.pop_front();
-                            self.node0.append(&mut remain);
-                        }
+                if let Some(index) = self.node0.iter().position(|root_node_id| root_node_id.clone() == node_id) {
+                    // Optimize for first and last element in self.node0
+                    if index == 0 {
+                        self.node0.pop_front();
+                    } else if index == self.node0.len() - 1 {
+                        self.node0.pop_back();
+                    } else {
+                        let mut remain = self.node0.split_off(index);
+                        remain.pop_front();
+                        self.node0.append(&mut remain);
                     }
                 }
 
@@ -662,9 +646,7 @@ where
 
         // Add super-node to node as super-node.
         self._pre_update(node_id.clone());
-        self._get_node_mut_opt(node_id.clone())
-            .unwrap()
-            .add_super(Some(super_id));
+        self._get_node_mut_opt(node_id.clone()).unwrap().add_super(Some(super_id));
         self._post_update(node_id);
 
         self
@@ -684,9 +666,7 @@ where
         self._pre_update(node_id.clone());
 
         // Add super node to node
-        self._get_node_mut_opt(node_id.clone())
-            .unwrap()
-            .add_super(None);
+        self._get_node_mut_opt(node_id.clone()).unwrap().add_super(None);
 
         self._post_update(node_id);
 
@@ -738,11 +718,7 @@ where
 
     /// Err(DuplicateSubNode)
     // Test coverage: { unit = done, integration = none, doc = none } -> ok
-    fn _err_duplicate_sub_node(
-        &self,
-        super_id: Rc<K>,
-        node_id: Rc<K>,
-    ) -> Result<&Self, TaxonomyError<K>> {
+    fn _err_duplicate_sub_node(&self, super_id: Rc<K>, node_id: Rc<K>) -> Result<&Self, TaxonomyError<K>> {
         let super_node = self._get_node_res(super_id.clone())?;
 
         if super_node.subs().contains(&node_id) {
@@ -763,14 +739,13 @@ where
                 }
             }
             // Sub node identified by id
-            (Some(super_id), node_id) => match self._get_node_opt(super_id.clone()) {
-                None => {}
-                Some(super_node) => {
+            (Some(super_id), node_id) => {
+                if let Some(super_node) = self._get_node_opt(super_id.clone()) {
                     if super_node.subs().contains(&node_id) {
                         return Err(DuplicateEdge(Some(super_id), node_id));
                     }
                 }
-            },
+            }
         };
 
         Ok(self)
@@ -813,7 +788,7 @@ where
             return Err(LoopDetected(node_id)); // loop detected
         }
         // Compare node and all its sub-nodes (collected recursively first) with all anticipated super-nodes, any match => loop
-        else {
+        else { // tarpaulin: exclude false positive from code coverage
             // collect sub-nodes recursively if this fn was called with subs: None
             let subs = match subs {
                 None => Rc::new(self._enumerate_subs(node_id.clone())),
@@ -930,7 +905,7 @@ where
         // Start with last node in cursor
         match self.cursor.last() {
             // Cursor is None => init cursor with first node from node0 if available
-            None => {
+            None => { // tarpaulin: exclude false positive from code coverage
                 if !self.node0.is_empty() {
                     self.cursor.push(Cursor::new(None, 0));
                 }
@@ -974,8 +949,7 @@ where
                             let super_node = self._get_node_opt(super_id.clone()).unwrap();
 
                             if node_index + 1 < super_node.subs().len() {
-                                self.cursor
-                                    .push(Cursor::new(Some(super_id), node_index + 1));
+                                self.cursor.push(Cursor::new(Some(super_id), node_index + 1));
                             } else {
                                 while let Some(cursor) = self.cursor.pop() {
                                     match (cursor.super_id(), cursor.node_index()) {
@@ -983,19 +957,15 @@ where
                                         (None, node_index) => {
                                             if node_index + 1 < self.node0.len() {
                                                 self.cursor.push(Cursor::new(None, node_index + 1));
-                                                break;
+                                                break; // found next Node, break while loop
                                             }
                                         }
                                         // Non-root node found, set cursor to co-node if available
                                         (Some(super_id), node_index) => {
-                                            let super_node =
-                                                self._get_node_opt(super_id.clone()).unwrap();
+                                            let super_node = self._get_node_opt(super_id.clone()).unwrap();
                                             if node_index + 1 < super_node.count_subs() {
-                                                self.cursor.push(Cursor::new(
-                                                    Some(super_id),
-                                                    node_index + 1,
-                                                ));
-                                                break;
+                                                self.cursor.push(Cursor::new(Some(super_id), node_index + 1));
+                                                break; // found next Node, break while loop
                                             }
                                         }
                                     }
@@ -1026,7 +996,7 @@ where
     // Test coverage: { unit = done, integration = none, doc = none } -> ok
     fn _pre_update(&mut self, node_id: Rc<K>) -> &mut Self {
         if self._get_node_opt(node_id).is_some() {}
-        self
+        self // return &mut Taxonomy
     }
 
     /// Removes a node.
@@ -1040,32 +1010,25 @@ where
         // Delete node from taxonomy
         self.nodes.remove(&node_id);
 
-        self
+        self // return &mut Taxonomy
     }
 
-    /// Removes a root-node.
+    /// Removes a root-node identified by id, silently ignores if id is missing.
     // Test coverage: { unit = done, integration = none, doc = none } -> ok
     fn _remove_root_node(&mut self, node_id: Rc<K>) -> &mut Self {
         self._pre_update(node_id.clone());
 
         // Determine index of root-node in node0 and remove it
-        match self
-            .node0
-            .iter()
-            .position(|root_node_id| root_node_id.clone() == node_id)
-        {
-            None => {}
-            Some(index) => {
-                // Optimize for first and last element in self.node0
-                if index == 0 {
-                    self.node0.pop_front();
-                } else if index == self.node0.len() - 1 {
-                    self.node0.pop_back();
-                } else {
-                    let mut remain = self.node0.split_off(index);
-                    remain.pop_front();
-                    self.node0.append(&mut remain);
-                }
+        if let Some(index) = self.node0.iter().position(|root_node_id| root_node_id.clone() == node_id) {
+            // Optimize for first and last element in self.node0
+            if index == 0 {
+                self.node0.pop_front();
+            } else if index == self.node0.len() - 1 {
+                self.node0.pop_back();
+            } else {
+                let mut remain = self.node0.split_off(index);
+                remain.pop_front();
+                self.node0.append(&mut remain);
             }
         }
 
@@ -1075,6 +1038,6 @@ where
         // Delete node from taxonomy
         self.nodes.remove(&node_id);
 
-        self
+        self // return &mut Taxonomy
     }
 }

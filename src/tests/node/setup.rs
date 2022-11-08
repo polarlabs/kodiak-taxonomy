@@ -34,8 +34,7 @@ pub(crate) fn setup_root_node_with_one_sub() -> Node<Uuid, Concept> {
 /// └── Organisation
 ///     ├── Department
 ///     └── Employee (duplicate)
-pub(crate) fn setup_two_root_nodes_with_first_being_sub_of_second(
-) -> (Node<Uuid, Concept>, Node<Uuid, Concept>) {
+pub(crate) fn setup_two_root_nodes_with_first_being_sub_of_second() -> (Node<Uuid, Concept>, Node<Uuid, Concept>) {
     let empl = Concept::new("Employee");
     let empl_id = empl.id();
     let org = Concept::new("Organisation");
@@ -92,8 +91,7 @@ pub(crate) fn setup_root_node_with_four_subs() -> (Node<Uuid, Concept>, Vec<Rc<U
 ///     ├── Firewalls
 ///     ├── Mobiles
 ///     └── Servers
-pub(crate) fn setup_root_node_with_four_subs_in_vec(
-) -> (Node<Uuid, Concept>, Vec<Node<Uuid, Concept>>) {
+pub(crate) fn setup_root_node_with_four_subs_in_vec() -> (Node<Uuid, Concept>, Vec<Node<Uuid, Concept>>) {
     let dev = Concept::new("Devices");
     let dev_id = Rc::new(dev.id());
 

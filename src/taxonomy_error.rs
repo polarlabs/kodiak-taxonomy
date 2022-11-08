@@ -3,6 +3,8 @@ use thiserror::Error;
 use std::hash::Hash;
 use std::rc::Rc;
 
+// Rust API Guidline - C-GOOD-ERR
+// The error message given by the Display representation of an error type should be lowercase without trailing punctuation, and typically concise.
 #[derive(PartialEq, Eq, Error, Debug)]
 pub enum TaxonomyError<K>
 where
