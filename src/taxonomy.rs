@@ -229,6 +229,7 @@ where
 
         match super_id {
             // Element becomes a root-node
+            #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 let node = Node::new(element);
                 self._add_root_node(node);
@@ -268,6 +269,7 @@ where
 
         match super_id {
             // Node is appended to root nodes
+            #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 let pos = self.node0.len();
                 match self.node0.contains(&node_id) {
@@ -314,6 +316,7 @@ where
 
         match super_id {
             // Node is appended to root nodes
+            #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 match self.node0.contains(&node_id) {
                     true => return Err(DuplicateRootNode(node_id)),
@@ -386,6 +389,7 @@ where
 
         match to_super_id {
             // Node is appended to root nodes
+            #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 self._append_root_at(node_id, index);
             }
@@ -786,9 +790,8 @@ where
         // Node and its anticipated super node are identical => loop
         if node_id == super_id {
             return Err(LoopDetected(node_id)); // loop detected
-        }
-        // Compare node and all its sub-nodes (collected recursively first) with all anticipated super-nodes, any match => loop
-        else { // tarpaulin: exclude false positive from code coverage
+        } else {
+            // Compare node and all its sub-nodes (collected recursively first) with all anticipated super-nodes, any match => loop
             // collect sub-nodes recursively if this fn was called with subs: None
             let subs = match subs {
                 None => Rc::new(self._enumerate_subs(node_id.clone())),
@@ -905,6 +908,7 @@ where
         // Start with last node in cursor
         match self.cursor.last() {
             // Cursor is None => init cursor with first node from node0 if available
+            #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 if !self.node0.is_empty() {
                     self.cursor.push(Cursor::new(None, 0));

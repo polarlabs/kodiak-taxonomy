@@ -1,4 +1,7 @@
-# kodiak-taxonomy
+# kodiak-taxonomy [![Code Coverage]][codecov]
+
+[Code Coverage]: https://codecov.io/github/polarlabs/kodiak-taxonomy/branch/main/graph/badge.svg?token=W6CK81EAME 
+[codecov]: https://codecov.io/github/polarlabs/kodiak-taxonomy
 
 This library crate is a building block of the Kodiak project, thus the naming of the crate.
 Although, Kodiak has some quite specific requirements for a taxonomy, `kodiak-taxonomy` is kept generic,
