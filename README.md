@@ -12,8 +12,8 @@
 [![Github Build Status]][github-actions-cargo-test]
 [![Code Coverage]][codecov]
 [![docs.rs]][docs]
-[![Github Security Audit]][github-actions-cargo-audit]
 [![Libraries.io Dep Status]][libraries]
+[![Github Security Audit]][github-actions-cargo-audit]
 
 
 [![GitHub Open Issues]][github-issues]

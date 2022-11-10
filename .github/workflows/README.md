@@ -13,6 +13,8 @@ Implemented security checks:
 
 * cargo audit (runs if dependencies have changed and scheduled once a day)
 
+Todo: cargo geiger
+
 # Links
 
 [https://gist.github.com/LukeMathWalker/5ae1107432ce283310c3e601fac915f3|Github Actions by Luca Palmieri]
