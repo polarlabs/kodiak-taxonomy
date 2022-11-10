@@ -95,15 +95,20 @@ Kodiak's specific requirements regarding its taxonomy:
 
 # Roadmap and future considerations
 
-## Version 0.3.0 (planned)
+## Version 0.5.0 (planned)
 - Implement Iterator trait.
+
+## Version 0.4.0 (planned)
 - Implement Serde's Serialize and Deserialize.
+- 
+## Version 0.3.0 (planned)
+- Add support for arbitrary metadata / attributes at the Node and Edge level.
 
 ## Version 0.2.0 (in progress)
 - Review and follow Rust API Guidelines.
 - Improve documentation: e.g. comply to C-LINK from Rust API Guidelines.
 - Full code coverage with tests, measured by tarpaulin and added as a badge to Github project 
-- Add support for arbitrary metadata / attributes at the Node and Edge level.
+- Switch to `#![forbid(unsafe_code)]`
 
 ## Version 0.1.0 (delivered)
 - Initial release.
