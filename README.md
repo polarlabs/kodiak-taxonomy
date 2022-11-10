@@ -13,7 +13,8 @@
 [![Code Coverage]][codecov]
 [![docs.rs]][docs]
 [![Libraries.io Dep Status]][libraries]
-[![Github Security Audit]][github-actions-cargo-audit]
+[![Github Security Schedule]][github-actions-cargo-audit-on-schedule]
+[![Github Security Push]][github-actions-cargo-audit-on-push]
 
 
 [![GitHub Open Issues]][github-issues]
@@ -41,8 +42,11 @@
 [Github Build Status]: https://img.shields.io/github/workflow/status/polarlabs/kodiak-taxonomy/workflow-cargo-test?logo=github&label=tests&style=flat-square
 [github-actions-cargo-test]: https://github.com/polarlabs/kodiak-taxonomy/actions/workflows/cargo-test.yml
 
-[Github Security Audit]: https://img.shields.io/github/workflow/status/polarlabs/kodiak-taxonomy/workflow-cargo-audit?logo=github&label=security%20audit&style=flat-square
-[github-actions-cargo-audit]: https://github.com/polarlabs/kodiak-taxonomy/actions/workflows/cargo-audit.yml
+[Github Security Schedule]: https://img.shields.io/github/workflow/status/polarlabs/kodiak-taxonomy/workflow-cargo-audit-on-schedule?logo=clockify&logoColor=ffffff&label=security%20audit&style=flat-square
+[github-actions-cargo-audit-on-schedule]: https://github.com/polarlabs/kodiak-taxonomy/actions/workflows/cargo-audit-on-schedule.yml
+
+[Github Security Push]: https://img.shields.io/github/workflow/status/polarlabs/kodiak-taxonomy/workflow-cargo-audit-on-push?logo=github&label=security%20audit&style=flat-square
+[github-actions-cargo-audit-on-push]: https://github.com/polarlabs/kodiak-taxonomy/actions/workflows/cargo-audit-on-push.yml
 
 [GitHub Top Language]: https://img.shields.io/github/languages/top/polarlabs/kodiak-taxonomy?color=dea584&logo=rust&style=flat-square
 [lang]: https://www.rust-lang.org/
