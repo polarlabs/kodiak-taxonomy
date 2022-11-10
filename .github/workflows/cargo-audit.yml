@@ -2,8 +2,11 @@ name: workflow-cargo-audit
 run-name: cargo audit run by ${{ github.actor }}
 on:
   push:
+    paths:
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "5 9 * * *"
 jobs:
   cargo-audit:
     runs-on: ubuntu-latest
