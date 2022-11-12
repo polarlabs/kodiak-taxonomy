@@ -1,6 +1,6 @@
 [package]
 name = "kodiak-taxonomy"
-version = "0.1.0"
+version = "0.2.0-alpha"
 authors = ["Tobias Mucke <tobias.mucke@gmail.com", ]
 description = "A library to manage generic taxonomies supporting unique features."
 categories = ["data-structures"]
@@ -18,7 +18,6 @@ autotests = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-thiserror = "1.0.37"
 
 # Required for integration tests
 [dev-dependencies]

@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 //! This library crate is a building block of the Kodiak project, thus the naming of the crate.
 //! Although, Kodiak has some quite specific requirements for a taxonomy, `kodiak-taxonomy` is kept generic,
 //! provides value on its own and might be of interest for other projects as well.

@@ -1,6 +1,7 @@
 # kodiak-taxonomy
 
 [![GitHub Top Language]][lang]
+[![Static unsafe]][unsafe]
 [![crates.io License]][license-mit]
 [![Github License]][license-apache]
 
@@ -13,6 +14,8 @@
 [![Code Coverage]][codecov]
 [![docs.rs]][docs]
 [![Libraries.io Dep Status]][libraries]
+
+
 [![Github Security Schedule]][github-actions-cargo-audit-on-schedule]
 [![Github Security Push]][github-actions-cargo-audit-on-push]
 
@@ -63,6 +66,9 @@
 
 [Libraries.io Dep Status]: https://img.shields.io/librariesio/github/polarlabs/kodiak-taxonomy?logo=libraries.io&logoColor=ffffff&style=flat-square
 [libraries]: https://libraries.io/cargo/kodiak-taxonomy
+
+[Static unsafe]: https://img.shields.io/badge/unsafe-forbidden-success.svg?logo=rust&logoColor=ffffff&style=flat-square
+[unsafe]: (https://github.com/rust-secure-code/safety-dance/)
 
 This library crate is a building block of the Kodiak project, thus the naming of the crate.
 Although, Kodiak has some quite specific requirements for a taxonomy, `kodiak-taxonomy` is kept generic,
@@ -122,3 +128,23 @@ Kodiak's specific requirements regarding its taxonomy:
 # Contributing
 
 See CONTRIBUTING.md for more details.
+
+## Cargo Geiger Safety Report
+```
+
+Metric output format: x/y
+    x = unsafe code used by the build
+    y = total unsafe code found in the crate
+
+Symbols: 
+    🔒  = No `unsafe` usage found, declares #![forbid(unsafe_code)]
+    ❓  = No `unsafe` usage found, missing #![forbid(unsafe_code)]
+    ☢️  = `unsafe` usage found
+
+Functions  Expressions  Impls  Traits  Methods  Dependency
+
+0/71       0/1241       0/3    0/0     0/43     🔒  kodiak-taxonomy 0.1.0
+
+0/71       0/1241       0/3    0/0     0/43   
+
+```
