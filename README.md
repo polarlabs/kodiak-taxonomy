@@ -129,6 +129,8 @@ Kodiak's specific requirements regarding its taxonomy:
 
 See CONTRIBUTING.md for more details.
 
+# Appendix
+
 ## Cargo Geiger Safety Report
 ```
 
@@ -143,8 +145,8 @@ Symbols:
 
 Functions  Expressions  Impls  Traits  Methods  Dependency
 
-0/71       0/1241       0/3    0/0     0/43     🔒  kodiak-taxonomy 0.1.0
+0/0        0/0          0/0    0/0     0/0      🔒  kodiak-taxonomy 0.2.0-alpha
 
-0/71       0/1241       0/3    0/0     0/43   
+0/0        0/0          0/0    0/0     0/0    
 
 ```
