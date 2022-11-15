@@ -44,7 +44,11 @@ cargo publish
 
 # Publish a new release on GitHub
 
-tbd
+On GitHub:
+
+* Create a tag with pattern vx.y.z
+* Release title: kodiak-taxonomy-vx.y.z
+* Write some release notes (mainly inspired by roadmap and git log)
 
 # Links
 

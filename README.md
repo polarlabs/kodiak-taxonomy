@@ -112,10 +112,10 @@ Kodiak's specific requirements regarding its taxonomy:
 - Edges (a tuple of a super and its sub element) might be complemented with arbitrary attributes (still todo: not implemented yet)
 
 # Known issues / limitations
-- 🏗️ Version 0.1.0 does not yet power other projects, so API has not yet proven it's power in practice.
-- 🚧 Code is fully covered by unit tests, however, some integration tests are still missing and documentation has room for improvement.
-- Rust API Guidelines have not yet been considered.
-- 🐧 Version 0.1.x is developed and tested on Linux only.
+- 🏗️ Version 0.2.0 does not yet power other projects, so API has not yet proven it's power in practice.
+- 🚧 Code is fully covered by unit tests, however, some integration tests are still missing.
+- Documentation has still some room for improvement.
+- 🐧 Version 0.2.x is developed and tested on Linux only.
 
 # Roadmap and future considerations
 
