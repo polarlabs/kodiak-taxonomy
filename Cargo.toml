@@ -1,6 +1,6 @@
 [package]
 name = "kodiak-taxonomy"
-version = "0.2.0-alpha"
+version = "0.2.0"
 authors = ["Tobias Mucke <tobias.mucke@gmail.com", ]
 description = "A library to manage generic taxonomies supporting unique features."
 categories = ["data-structures"]

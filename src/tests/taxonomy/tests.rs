@@ -461,7 +461,7 @@ mod tests {
         let (mut tax, _, list) = setup_tax_animals();
 
         let mut i = 0;
-        while let Some(concept) = tax.traverse_mut() {
+        while let Some(concept) = tax.traverse() {
             let c = list.iter().nth(i).unwrap().1.clone();
             assert_eq!(*concept, c);
             i += 1;

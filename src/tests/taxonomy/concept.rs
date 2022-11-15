@@ -1,7 +1,7 @@
 use crate::Identity;
 use uuid::Uuid;
 
-#[derive(PartialEq, Clone, Debug)]
+#[derive(Eq, PartialEq, Clone, Debug)]
 pub struct Concept {
     id: Uuid,
     #[allow(dead_code)]

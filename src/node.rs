@@ -5,6 +5,7 @@ mod tests;
 use crate::Identity;
 
 use std::collections::LinkedList;
+use std::fmt::Debug;
 use std::hash::Hash;
 use std::rc::Rc;
 
@@ -16,11 +17,8 @@ use std::rc::Rc;
 /// and sub-ordinated nodes.
 ///
 /// Users of the library do not directly interact with `Node`.
-pub struct Node<K, V>
-where
-    K: Hash + Eq,
-    V: Identity<K>,
-{
+#[derive(Eq, PartialEq, Clone, Debug)]
+pub(crate) struct Node<K, V> {
     id: Rc<K>,
     element: V,
     supers: LinkedList<SuperNode<Rc<K>>>, // Sequence doesn't matter, but if it's a root node SuperNode::None is always the first element in LinkedList
@@ -29,7 +27,7 @@ where
 
 /// Represents a super-ordinated node. If `SuperNode` is `None` the `Node`
 /// is a root node.
-#[derive(PartialEq)]
+#[derive(Eq, PartialEq, Clone, Debug)]
 enum SuperNode<K> {
     None,
     Id(K),

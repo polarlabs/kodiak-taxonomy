@@ -14,7 +14,7 @@ use std::collections::{HashMap, HashSet, LinkedList};
 use std::hash::Hash;
 use std::rc::Rc;
 
-/// A taxonomy of equally typed nodes which allows a node to have more than one superior.
+/// A taxonomy of equally typed nodes which allows a node to have zero, one or more super-nodes.
 ///
 /// Taxonomy wraps the data, also known as element, in `Node`s. The id of a `Node` is defined by
 /// the user's implementation of the `Identity` trait.
@@ -27,6 +27,8 @@ use std::rc::Rc;
 /// Taxonomy knows four types of nodes. Many nodes have multiple types at the same time or change their type
 /// during taxonomy lifecycle.
 ///
+/// Todo: Explain the term taxon
+///
 /// 1. Root node (*root-node*): node at the top level of the taxonomy. Taxonomy supports multiple root-nodes, so user are not forced to create a fake root node.
 /// 2. Superordinate node (*super-node*): node at a *higher* level of the taxonomy (relative to its sub-nodes).
 /// 3. Subordinate node (*sub-node*): node at a *lower* level of the taxonomy (relative to its super-node(s)).
@@ -34,6 +36,7 @@ use std::rc::Rc;
 ///
 /// Burden:
 /// Implement the `Identity` trait for the nodes' type.
+#[derive(Eq, PartialEq, Clone, Debug)]
 pub struct Taxonomy<K: Hash + Eq, V: Identity<K>> {
     nodes: HashMap<Rc<K>, Node<K, V>>,
     node0: LinkedList<Rc<K>>,
@@ -91,7 +94,7 @@ where
     /// let mut tax: Taxonomy<String, Class> = Taxonomy::new();
     /// ```
     // Test coverage: { unit = none, integration = missing, doc = done } -> not ok
-    pub fn new() -> Self {
+    pub fn new() -> Taxonomy<K, V> {
         Taxonomy {
             nodes: HashMap::new(),
             node0: LinkedList::new(),
@@ -195,8 +198,9 @@ where
     /// element (aka existing node) to another node.
     ///
     /// # Errors
-    /// `DuplicateElement`: taxonomy already contains the element, identified by `Identity`.
-    /// `NodeNotFound`: no node with super_id not found in taxonomy.
+    ///
+    /// - [`DuplicateNode`]: taxonomy contains a node with the same `node_id`, see [`Identity`].
+    /// - [`NodeNotFound`]: taxonomy does not contain the super-node provided.
     ///
     /// # Examples
     ///
@@ -254,12 +258,15 @@ where
     /// Appends an element as sub-node to an existing node.
     ///
     /// # Errors
-    /// `DuplicateNode`: node already exists at that level in taxonomy
-    /// `NodeNotFound(id)`: node with id not found in taxonomy.
-    /// `LoopDetected`: appending the node would result in a loop.
+    ///
+    /// - [`DuplicateSubNode`]: super-node has a sub-node with the same `node_id` as the node to be appended, see [`Identity`].
+    /// - [`NodeNotFound`]: taxonomy does not contain either the super-node or the node provided.
+    /// - [`LoopDetected`]: appending the node to the taxonomy would result in a loop.
     ///
     /// # Examples
-    /// todo
+    /// ```rust
+    /// println!("Test");
+    /// ```
     // Test coverage: { unit = done, integration = missing, doc = done } -> not ok
     pub fn append(&mut self, super_id: Option<K>, node_id: K) -> Result<&mut Self, TaxonomyError<K>> {
         let node_id = Rc::new(node_id);
@@ -300,13 +307,20 @@ where
     /// Appends element as sub-node at a specified index of an existing node identified by super_id.
     ///
     /// # Errors
-    /// `DuplicateNode`: node already exists at that level in taxonomy
-    /// `NodeNotFound(id)`: node with id not found in taxonomy.
-    /// `LoopDetected`: appending the node would result in a loop.
+    ///
+    /// - [`DuplicateRootNode`]: node with `node_id` is already a super-node.
+    /// - [`DuplicateSubNode`]: super-node has already a sub-node with the same `node_id` as the node to be appended, see [`Identity`].
+    /// - [`NodeNotFound`]: taxonomy does not contain either the super-node or the node provided.
+    /// - [`LoopDetected`]: appending the node to the taxonomy would result in a loop.
+    ///
+    /// # Panics
+    ///
+    /// Method does **not** panic. If `index` is out of bound, node is appended to the back.
     ///
     /// # Examples
     /// todo
     /// ```text
+    /// ```
     // Test coverage: { unit = done, integration = missing, doc = missing } -> not ok
     pub fn append_at(&mut self, super_id: Option<K>, node_id: K, index: usize) -> Result<&mut Self, TaxonomyError<K>> {
         let node_id = Rc::new(node_id);
@@ -343,16 +357,21 @@ where
         Ok(self)
     }
 
-    /// Moves element either from one super-node to another.
+    /// Moves node from one super-node to another of to root-nodes.
     ///
     /// Supports root and non-root nodes as source and destination.
     /// Does not support moving to another position at the same super-node.
     ///
     /// # Errors
-    /// `NodeNotFound(id)`: node specified by id not found in taxonomy.
-    /// `EdgeNotFound(from_super_id, node_id)`: Edge not found (Source)
-    /// `DuplicateEdge(to_super_id, node_id)`: Edge already exists (Destination)
-    /// `LoopDetected(id)`: Loop detected
+    ///
+    /// - [`DuplicateEdge`]: the destination-super-node has already a sub-node with the same `node_id` as the node to be appended, see [`Identity`].
+    /// - [`EdgeNotFound`]: at the source, the edge (tuple of source-super-node and node) does not exist.
+    /// - [`NodeNotFound`]: taxonomy does not contain either the source-super-node, the destination-super-node or the node provided.
+    /// - [`LoopDetected`]: moving the node to the destination-super-node would result in a loop.
+    ///
+    /// # Panics
+    ///
+    /// Method does **not** panic. If `index` is out of bound, node is moved to the back.
     ///
     /// # Examples
     /// todo
@@ -388,7 +407,7 @@ where
         self._err_duplicate_edge(&to_edge)?;
 
         match to_super_id {
-            // Node is appended to root nodes
+            // Node is appended to root-nodes
             #[rustfmt::skip]
             None => { // tarpaulin: exclude false positive from code coverage
                 self._append_root_at(node_id, index);
@@ -411,8 +430,9 @@ where
     /// Refuses removal if node has sub-nodes, use remove_recursively.
     ///
     /// # Errors
-    /// `NodeNotFound`: node not found
-    /// `NodeHasSubNode`: use remove_recursively to remove a node with all its subs
+    ///
+    /// - [`NodeHasSubNode`]: node provided by `node_id` has sub-nodes. Use [`remove_recursively`](Self::remove_recursively) to remove a node with all sub-nodes.
+    /// - [`NodeNotFound`]: taxonomy does not contain the node provided by `node_id`.
     ///
     /// # Examples
     /// todo
@@ -457,11 +477,12 @@ where
     /// recursively in case there are sub nodes.
     ///
     /// # Errors
-    /// `EdgeNotFound`: either super or sub node are not found at all in the taxonomy,
-    ///                 or there is no edge between the two.
+    ///
+    /// - [`EdgeNotFound`]: either super-node or sub-node are not found in the taxonomy or the edge (tuple of source-super-node and node) between the two does not exist.
     ///
     /// # Examples
-    /// todo
+    /// todo: write example
+    /// todo: write an integration test (probably fails because Edge can not be created by the user)
     // Test coverage: { unit = done, integration = missing, doc = missing } -> not ok
     pub fn remove_from(&mut self, edge: Edge<K>) -> Result<&mut Self, TaxonomyError<K>> {
         self._err_edge_not_found(&edge)?;
@@ -553,12 +574,13 @@ where
     /// Use remove_from if you want to remove the node only from one of its super-nodes.
     ///
     /// # Errors
-    /// `NodeNotFound`: either super or sub node are not found at all in the taxonomy,
-    ///                 or there is no edge between the two.
+    ///
+    /// - [`NodeNotFound`]: taxonomy does not contain the node provided by `node_id`.
     ///
     /// # Examples
     /// todo
     /// ```text
+    /// ```
     // Test coverage: { unit = missing, integration = missing, doc = missing } -> not ok
     pub fn remove_recursively(&mut self, node_id: Rc<K>) -> Result<&mut Self, TaxonomyError<K>> {
         let node = self._get_node_res(node_id.clone())?;
@@ -601,6 +623,7 @@ where
 //
 // Private functions
 //
+#[doc(hidden)]
 impl<K, V> Taxonomy<K, V>
 where
     K: Hash + Eq,

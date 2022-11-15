@@ -1,5 +1,6 @@
 use std::rc::Rc;
 
+#[derive(Eq, PartialEq, Clone, Debug)]
 pub(crate) struct Cursor<K> {
     super_id: Option<Rc<K>>,
     node_index: usize,

@@ -1,17 +1,40 @@
-Just a short checklist on publishing a release.
+Just a short checklist on merging a feature branch and publishing a release.
+
+# Merge a feature branch
+
+* Review CI results of to be merged feature branch
+* Merge feature branch
+
+```
+git checkout main
+git merge --squash <FEATURE_BRANCH>
+```
+
+* Change version in Cargo.toml
+
+```
+cargo clean
+cargo geiger --all-features --output-format GitHubMarkdown --update-readme
+```
+ 
+* Review README.md
+* Update roadmap in README.md
+
+```
+git add .
+git commit -m "feat!: ... ."
+git push
+```
 
 # Publish a new version on crates.io
 
 From the project root:
 
 ```
-cargo clean
-cargo geiger --all-features --output-format GitHubMarkdown --update-readme
+cargo doc
 ```
 
-* Review README.md
-* Build docs and check locally
-* Change version in Cargo.toml
+* Review docs locally
 
 ```
 cargo publish --dry-run

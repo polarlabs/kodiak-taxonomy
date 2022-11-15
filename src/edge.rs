@@ -5,7 +5,7 @@ use std::rc::Rc;
 /// In a taxonomy which allows nodes to have more than one superordinate node,
 /// a node might be a sub node in more than one edge. In practice, an `Edge`
 /// allows us to define a node's distinct location in the taxonomy.
-#[derive(PartialEq, Eq, Debug)]
+#[derive(Eq, PartialEq, Clone, Debug)]
 pub struct Edge<K> {
     super_id: Option<Rc<K>>,
     node_id: Rc<K>,
