@@ -12,6 +12,9 @@ readme = "README.md"
 edition = "2021"
 license = "MIT / Apache-2.0"
 
+# Exclude files from publishing to crates.io
+exclude = [".github"]
+
 # Disable autodiscovery for tests, use test target (see below)
 autotests = false
 
