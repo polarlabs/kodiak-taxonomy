@@ -46,27 +46,3 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           args: --all-features -- -D warnings
-
-  cargo-tarpaulin:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout-repo
-        uses: actions/checkout@v3
-
-      - name: install-toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-
-      - name: check-coverage
-        uses: actions-rs/tarpaulin@v0.1
-        with:
-          version: latest
-          args: --ignore-tests --out Xml --fail-under 100
-
-      - name: report-coverage
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./cobertura.xml

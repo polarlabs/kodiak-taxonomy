@@ -159,9 +159,13 @@ See [CONTRIBUTING](CONTRIBUTING.md) for more details.
 
 # Appendix
 
-## Cargo Geiger Safety Report
-```
+## References
 
+[^Wikipedia]: [Taxonomy](https://en.wikipedia.org/wiki/Taxonomy)
+
+## Cargo Geiger Safety Report
+
+```
 Metric output format: x/y
     x = unsafe code used by the build
     y = total unsafe code found in the crate
@@ -176,8 +180,8 @@ Functions  Expressions  Impls  Traits  Methods  Dependency
 0/0        0/0          0/0    0/0     0/0      🔒  kodiak-taxonomy 0.2.0
 
 0/0        0/0          0/0    0/0     0/0    
-
 ```
+
 ## License
 
 Licensed under either of
@@ -188,3 +192,4 @@ Licensed under either of
   ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
 
 at your option.
+
