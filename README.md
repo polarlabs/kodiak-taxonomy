@@ -35,8 +35,8 @@
 [crates.io Latest]: https://img.shields.io/crates/v/kodiak-taxonomy?label=latest&logo=docs.rs&style=flat-square
 [crates]: https://crates.io/crates/kodiak-taxonomy
 
-[crates.io License]: https://img.shields.io/crates/l/kodiak-taxonomy?color=007ec6&style=flat-square
-[GitHub License]: https://img.shields.io/github/license/polarlabs/kodiak-taxonomy?color=007ec6&style=flat-square
+[crates.io License]: https://img.shields.io/crates/l/kodiak-taxonomy?logo=docs.rs&color=007ec6&style=flat-square
+[GitHub License]: https://img.shields.io/github/license/polarlabs/kodiak-taxonomy?logo=github&color=007ec6&style=flat-square
 [license-mit]: https://choosealicense.com/licenses/mit/
 [license-apache]: https://choosealicense.com/licenses/apache-2.0/
 
